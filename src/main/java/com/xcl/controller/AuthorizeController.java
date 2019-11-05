@@ -1,8 +1,8 @@
 package com.xcl.controller;
 
 
-import com.xcl.entity.AccessToken;
-import com.xcl.entity.GitHubUser;
+import com.xcl.dto.AccessTokenDTO;
+import com.xcl.dto.GitHubUser;
 import com.xcl.mapper.UserMapper;
 import com.xcl.model.User;
 import com.xcl.provider.GitHubProvider;
@@ -38,15 +38,15 @@ public class AuthorizeController {
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam("state") String state,
                            HttpServletResponse response) {
-        AccessToken accessToken = new AccessToken();
-        accessToken.setClient_id(clientId);
-        accessToken.setClient_secret(clientSecret);
-        accessToken.setCode(code);
-        accessToken.setRedirect_uri(redirectUri);
-        accessToken.setState(state);
-        String accessToken1 = gitHubProvider.getAccessToken(accessToken);
+        AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
+        accessTokenDTO.setClient_id(clientId);
+        accessTokenDTO.setClient_secret(clientSecret);
+        accessTokenDTO.setCode(code);
+        accessTokenDTO.setRedirect_uri(redirectUri);
+        accessTokenDTO.setState(state);
+        String accessToken1 = gitHubProvider.getAccessToken(accessTokenDTO);
         GitHubUser gitHubUser = gitHubProvider.getUser(accessToken1);
-        if (gitHubUser != null) {
+        if (gitHubUser != null && gitHubUser.getId() != null) {
             User user = new User();
             String token = UUID.randomUUID().toString();
             user.setToken(token);
@@ -54,10 +54,11 @@ public class AuthorizeController {
             user.setAccountId(String.valueOf(gitHubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
+            user.setAvatarUrl(gitHubUser.getAvatar_url());
             userMapper.insert(user);
-            response.addCookie(new Cookie("token",token));
+            response.addCookie(new Cookie("token", token));
             return "redirect:/";
-        }else{
+        } else {
             return "redirect:/";
         }
     }

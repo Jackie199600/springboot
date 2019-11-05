@@ -1,9 +1,9 @@
-package com.xcl.entity;
+package com.xcl.dto;
 
 import lombok.Data;
 
 @Data
-public class AccessToken {
+public class AccessTokenDTO {
     private String client_id;
     private String client_secret;
     private String code;

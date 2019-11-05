@@ -1,4 +1,4 @@
-package com.xcl.entity;
+package com.xcl.dto;
 
 import lombok.Data;
 
@@ -7,4 +7,5 @@ public class GitHubUser {
     private Long id;
     private String name;
     private String bio;
+    private String avatar_url;
 }
