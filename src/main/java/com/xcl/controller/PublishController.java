@@ -26,6 +26,16 @@ public class PublishController {
         return "publish";
     }
 
+    /**
+     *
+     *
+     * @param title  标题
+     * @param description 问题描述
+     * @param tag  标签
+     * @param request
+     * @param model
+     * @return
+     */
     @PostMapping("/publish")
     public String doPublish(@RequestParam(value = "title", required = false) String title,
                             @RequestParam(value = "description", required = false) String description,

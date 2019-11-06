@@ -12,6 +12,12 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class GitHubProvider {
+    /**
+     *
+     *
+     * @param accessTokenDTO
+     * @return
+     */
     public String getAccessToken(AccessTokenDTO accessTokenDTO) {
         MediaType mediaType = MediaType.get("application/json; charset=utf-8");
         OkHttpClient client = new OkHttpClient();
@@ -32,6 +38,12 @@ public class GitHubProvider {
     }
 
 
+    /**
+     *
+     *
+     * @param accessToken
+     * @return
+     */
     public GitHubUser getUser(String accessToken) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
