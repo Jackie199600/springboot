@@ -11,6 +11,7 @@
                         connectionURL="jdbc:mysql://localhost:3306/springboot?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC"
                         userId="root"
                         password="1234">
+            <property name="nullCatalogMeansCurrent" value="true"/>
         </jdbcConnection>
 
         <javaTypeResolver>
@@ -30,9 +31,7 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table  schema="springboot" tableName="user" domainObjectName="User">
-
-        </table>
+        <table   tableName="user" domainObjectName="User"></table>
 
     </context>
 </generatorConfiguration>
