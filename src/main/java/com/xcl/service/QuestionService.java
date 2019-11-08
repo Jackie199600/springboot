@@ -4,6 +4,7 @@ import com.xcl.Exception.CustomizeErrorCode;
 import com.xcl.Exception.CustomizeException;
 import com.xcl.dto.PaginationDTO;
 import com.xcl.dto.QuestionDTO;
+import com.xcl.mapper.QuestionExtMapper;
 import com.xcl.mapper.QuestionMapper;
 import com.xcl.mapper.UserMapper;
 import com.xcl.model.Question;
@@ -21,6 +22,8 @@ import java.util.List;
 public class QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
+    @Autowired
+    private QuestionExtMapper questionExtMapper;
     @Autowired
     private UserMapper userMapper;
 
@@ -136,5 +139,12 @@ public class QuestionService {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
         }
+    }
+
+    public void incView(Integer id) {
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
     }
 }
