@@ -1,5 +1,7 @@
 package com.xcl.service;
 
+import com.xcl.Exception.CustomizeErrorCode;
+import com.xcl.Exception.CustomizeException;
 import com.xcl.dto.PaginationDTO;
 import com.xcl.dto.QuestionDTO;
 import com.xcl.mapper.QuestionMapper;
@@ -103,6 +105,9 @@ public class QuestionService {
 
     public QuestionDTO getById(Integer id) {
         Question question = questionMapper.selectByPrimaryKey(id);
+        if (question == null) {
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);
         User user = userMapper.selectByPrimaryKey(question.getCreator());
@@ -125,8 +130,11 @@ public class QuestionService {
             updateQuestion.setDescription(question.getDescription());
             updateQuestion.setTag(question.getTag());
             QuestionExample example = new QuestionExample();
-            example.createCriteria().andCreatorEqualTo(question.getId());
-            questionMapper.updateByExampleSelective(updateQuestion, example);
+            example.createCriteria().andIdEqualTo(question.getId());
+            int update = questionMapper.updateByExampleSelective(updateQuestion, example);
+            if (update != 1) {
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
         }
     }
 }
