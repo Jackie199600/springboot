@@ -17,4 +17,9 @@
         set view_count = view _count + #{viewCount,jdbcType=INTEGER}
         where id=#{id}
     </update>
+    <update id="inCommentCount" parameterType="com.xcl.model.Question">
+        update question
+        set comment_count = comment_count + #{commentCount,jdbcType=INTEGER}
+        where id=#{id}
+    </update>
 </mapper>

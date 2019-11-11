@@ -4,10 +4,13 @@ import com.xcl.Exception.CustomizeErrorCode;
 import com.xcl.Exception.CustomizeException;
 import com.xcl.enums.CommentTypeEnum;
 import com.xcl.mapper.CommentMapper;
+import com.xcl.mapper.QuestionExtMapper;
 import com.xcl.mapper.QuestionMapper;
 import com.xcl.model.Comment;
+import com.xcl.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CommentService {
@@ -17,6 +20,10 @@ public class CommentService {
     @Autowired
     private QuestionMapper questionMapper;
 
+    @Autowired
+    private QuestionExtMapper questionExtMapper;
+
+    @Transactional
     public void insert(Comment comment) {
         if (comment.getParentId() == null || comment.getParentId() == 0) {
             throw new CustomizeException(CustomizeErrorCode.TARGET_PARAM_NOT_FOUND);
@@ -33,6 +40,13 @@ public class CommentService {
             commentMapper.insert(comment);
         } else {
             //回复问题
+            Question question = questionMapper.selectByPrimaryKey(comment.getId());
+            if (question == null) {
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
+            commentMapper.insert(comment);
+            question.setCommentCount(1);
+            questionExtMapper.inCommentCount(question);
         }
     }
 }
