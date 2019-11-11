@@ -3,10 +3,10 @@ package com.xcl.controller;
 
 import com.xcl.dto.AccessTokenDTO;
 import com.xcl.dto.GitHubUser;
-import com.xcl.mapper.UserMapper;
 import com.xcl.model.User;
 import com.xcl.provider.GitHubProvider;
 import com.xcl.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
+@Slf4j
 public class AuthorizeController {
 
     @Autowired
@@ -47,7 +47,7 @@ public class AuthorizeController {
      */
     @RequestMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
-                           @RequestParam("state") String state,
+                           @RequestParam(name = "state") String state,
                            HttpServletResponse response) {
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setClient_id(clientId);
@@ -65,9 +65,13 @@ public class AuthorizeController {
             user.setAccountId(String.valueOf(gitHubUser.getId()));
             user.setAvatarUrl(gitHubUser.getAvatar_url());
             userService.createOrUpdate(user);
-            response.addCookie(new Cookie("token", token));
+            Cookie cookie = new Cookie("token", token);
+            cookie.setMaxAge(60 * 60 * 24 * 30 * 6);
+            response.addCookie(cookie);
             return "redirect:/";
         } else {
+            log.error("callback get github error,{}", gitHubUser);
+            // 登录失败，重新登录
             return "redirect:/";
         }
     }

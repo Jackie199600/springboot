@@ -17,6 +17,7 @@ public class ResultDTO {
         return resultDTO;
     }
 
+
     public static ResultDTO errorOf(CustomizeErrorCode errorCode) {
         return errorOf(errorCode.getCode(), errorCode.getMessage());
     }

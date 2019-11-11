@@ -9,15 +9,6 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
     COMMENT_NOT_FOUND(2006, "你操作的评论不存在或者已被删除，要不换一个试试？？");
 
 
-    private String message;
-    private Integer code;
-
-
-    CustomizeErrorCode(Integer code, String message) {
-        this.message = message;
-        this.code = code;
-    }
-
     @Override
     public String getMessage() {
         return message;
@@ -25,7 +16,15 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
 
     @Override
     public Integer getCode() {
-        return null;
+        return code;
+    }
+
+    private Integer code;
+    private String message;
+
+    CustomizeErrorCode(Integer code, String message) {
+        this.message = message;
+        this.code = code;
     }
 
 

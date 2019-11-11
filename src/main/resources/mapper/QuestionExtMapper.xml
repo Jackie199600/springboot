@@ -14,7 +14,7 @@
     </resultMap>
     <update id="incView" parameterType="com.xcl.model.Question">
         update question
-        set view_count = view _count + #{viewCount,jdbcType=INTEGER}
+        set view_count = view_count + #{viewCount,jdbcType=INTEGER}
         where id=#{id}
     </update>
     <update id="inCommentCount" parameterType="com.xcl.model.Question">
