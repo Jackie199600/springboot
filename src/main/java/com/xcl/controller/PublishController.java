@@ -1,7 +1,6 @@
 package com.xcl.controller;
 
 import com.xcl.dto.QuestionDTO;
-import com.xcl.mapper.QuestionMapper;
 import com.xcl.model.Question;
 import com.xcl.model.User;
 import com.xcl.service.QuestionService;
