@@ -1,7 +1,9 @@
 package com.xcl.controller;
 
+import com.xcl.dto.NotificationDTO;
 import com.xcl.dto.PaginationDTO;
 import com.xcl.model.User;
+import com.xcl.service.NotificationService;
 import com.xcl.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,12 +13,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class ProfileController {
 
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private NotificationService notificationService;
 
     /**
      * @param action
@@ -38,12 +43,14 @@ public class ProfileController {
         if ("question".equals(action)) {
             model.addAttribute("section", "question");
             model.addAttribute("sectionName", "我的提问");
+            PaginationDTO paginationDTO = questionService.list(user.getId(), page, size);
+            model.addAttribute("pagination", paginationDTO);
         } else if ("replies".equals(action)) {
+            PaginationDTO paginationDTO = notificationService.list(user.getId(), page, size);
             model.addAttribute("section", "replies");
             model.addAttribute("sectionName", "最新回复");
+            model.addAttribute("pagination", paginationDTO);
         }
-        PaginationDTO paginationDTO = questionService.list(user.getId(), page, size);
-        model.addAttribute("pagination", paginationDTO);
         return "profile";
     }
 }

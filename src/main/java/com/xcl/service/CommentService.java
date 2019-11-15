@@ -4,6 +4,8 @@ import com.xcl.Exception.CustomizeErrorCode;
 import com.xcl.Exception.CustomizeException;
 import com.xcl.dto.CommentDTO;
 import com.xcl.enums.CommentTypeEnum;
+import com.xcl.enums.NotificationStatusEnum;
+import com.xcl.enums.NotificationTypeEnum;
 import com.xcl.mapper.*;
 import com.xcl.model.*;
 import org.springframework.beans.BeanUtils;
@@ -31,6 +33,8 @@ public class CommentService {
     private UserMapper userMapper;
     @Autowired
     private CommentExtMapper commentExtMapper;
+    @Autowired
+    private NotificationMapper notificationMapper;
 
     @Transactional
     public void insert(Comment comment, User commentator) {
@@ -59,17 +63,35 @@ public class CommentService {
             parentComment.setCommentCount(1);
             commentExtMapper.inCommentCount(parentComment);
 
+            //创建通知
+            createNotify(comment, dbComment.getCommentator(), commentator.getName(), question.getTitle(), NotificationTypeEnum.REPLY_COMMENT);
+
         } else {
             //回复问题
             Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
             if (question == null) {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
-            comment.setCommentCount(0);
             commentMapper.insert(comment);
             question.setCommentCount(1);
             questionExtMapper.inCommentCount(question);
+            //创建通知
+            createNotify(comment, question.getCreator(), commentator.getName(), question.getTitle(), NotificationTypeEnum.REPLY_QUESTION);
+
         }
+    }
+
+    private void createNotify(Comment comment, Long receiver, String notifierName, String outerTitle, NotificationTypeEnum notificationType) {
+        Notification notification = new Notification();
+        notification.setGmtCreate(System.currentTimeMillis());
+        notification.setType(notificationType.getType());
+        notification.setOuterid(comment.getParentId());
+        notification.setNotifier(comment.getCommentator());
+        notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+        notification.setReceiver(receiver);
+        notification.setNotifierName(notifierName);
+        notification.setOuterTitle(outerTitle);
+        notificationMapper.insert(notification);
     }
 
     public List<CommentDTO> listByTargetId(Long id, CommentTypeEnum type) {
