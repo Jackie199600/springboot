@@ -1,6 +1,5 @@
 package com.xcl.controller;
 
-import com.xcl.dto.NotificationDTO;
 import com.xcl.dto.PaginationDTO;
 import com.xcl.model.User;
 import com.xcl.service.NotificationService;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @Controller
 public class ProfileController {
@@ -47,9 +45,11 @@ public class ProfileController {
             model.addAttribute("pagination", paginationDTO);
         } else if ("replies".equals(action)) {
             PaginationDTO paginationDTO = notificationService.list(user.getId(), page, size);
+            Long unreadCount = notificationService.unreadCount(user.getId());
             model.addAttribute("section", "replies");
-            model.addAttribute("sectionName", "最新回复");
             model.addAttribute("pagination", paginationDTO);
+            model.addAttribute("unreadCount", unreadCount);
+            model.addAttribute("sectionName", "最新回复");
         }
         return "profile";
     }
