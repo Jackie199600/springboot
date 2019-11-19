@@ -77,6 +77,10 @@ body {
     color: #ff4e00;
 }
 
+.span_height {
+    height: 20px;
+}
+
 .btmbg {
     width: 100%;
     min-width: 1200px;
