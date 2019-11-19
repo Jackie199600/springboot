@@ -1,5 +1,6 @@
 package com.xcl.mapper;
 
+import com.xcl.dto.QuestionQueryDTO;
 import com.xcl.model.Question;
 import com.xcl.model.QuestionExample;
 import java.util.List;
@@ -134,4 +135,6 @@ public interface QuestionMapper {
      * @mbg.generated Fri Nov 15 14:01:07 CST 2019
      */
     int updateByPrimaryKey(Question record);
+
+
 }
