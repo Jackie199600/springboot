@@ -99,11 +99,7 @@
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>5.2.4</version>
-                <configuration>
-                    <url>jdbc:mysql://10.9.100.13:3306/springboot?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC</url>
-                    <user>root</user>
-                    <password>xcl199600xcl</password>
-                </configuration>
+
                 <dependencies>
                     <dependency>
                         <groupId>mysql</groupId>
