@@ -2,7 +2,6 @@ package com.xcl.provider;
 
 import com.alibaba.fastjson.JSON;
 import com.xcl.dto.AccessTokenDTO;
-
 import com.xcl.dto.GitHubUser;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;

@@ -2,6 +2,7 @@ package com.xcl.controller;
 
 import com.xcl.dto.FileDTO;
 import com.xcl.provider.UCloudProvider;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import java.io.IOException;
  * Time: 10:57
  */
 @Controller
+@Slf4j
 public class FileController {
 
     @Autowired
@@ -36,11 +38,11 @@ public class FileController {
             fileDTO.setUrl(fileName);
             return fileDTO;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("upload error", e);
+            FileDTO fileDTO = new FileDTO();
+            fileDTO.setSuccess(0);
+            fileDTO.setMessage("上传失败");
+            return fileDTO;
         }
-        FileDTO fileDTO = new FileDTO();
-        fileDTO.setSuccess(1);
-        fileDTO.setUrl("");
-        return fileDTO;
     }
 }

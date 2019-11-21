@@ -18,6 +18,21 @@
                     </div>
                     <button type="submit" class="btn btn-default">搜索</button>
                 </form>
+                <ul class="nav navbar-nav">
+                    <script>
+                        function clickNav(label) {
+                            gtag('event', 'click', {
+                                'event_category': 'LINK',
+                                'event_label': label,
+                                'transport_type': 'NAV'
+                            })
+                        }
+                    </script>
+                    <li th:each="ad : ${#httpServletRequest.getServletContext().getAttribute('NAV')}">
+                        <a th:href="${ad.url}" th:text="${ad.title}" th:onclick="clickNav([[${ad.title}]])"
+                           target="_blank"></a>
+                    </li>
+                </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li th:if="${session.user !=null}">
                         <a href="/publish">发布问题</a>
@@ -37,8 +52,8 @@
                         </ul>
                     </li>
                     <li th:if="${session.user ==null}">
-                        <a href="https://github.com/login/oauth/authorize?client_id=4f5f69dca2b36446d940&redirect_uri=http://106.75.47.44/callback&scope=user&state=1">登录</a>
-                        <!--<a href="https://github.com/login/oauth/authorize?client_id=4f5f69dca2b36446d940&redirect_uri=http://localhost:8080/callback&scope=user&state=1">登录</a>-->
+                        <!--                        <a href="https://github.com/login/oauth/authorize?client_id=4f5f69dca2b36446d940&redirect_uri=http://106.75.47.44/callback&scope=user&state=1">登录</a>-->
+                        <a href="https://github.com/login/oauth/authorize?client_id=4f5f69dca2b36446d940&redirect_uri=http://localhost:8080/callback&scope=user&state=1">登录</a>
                     </li>
 
                 </ul>
