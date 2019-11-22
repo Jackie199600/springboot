@@ -12,7 +12,7 @@
          th:each="ad : ${#httpServletRequest.getServletContext().getAttribute('SIDE')}">
         <a th:href="${ad.url}" th:onclick="clickSide([[${ad.title}]])"
            target="_blank">
-            <img class="img-thumbnail question-wechat" src="/images/Ucloud.png">
+            <img class="img-thumbnail question-wechat" th:src="${ad.image}">
         </a>
     </div>
 </div>
