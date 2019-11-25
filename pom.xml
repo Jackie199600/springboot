@@ -74,9 +74,6 @@
             <optional>true</optional>
         </dependency>
 
-        <!--Redis数据库-->
-
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

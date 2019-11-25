@@ -9,7 +9,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @MapperScan("com.xcl.mapper")
 @EnableScheduling
-@EnableCaching
 public class SpringbootApplication {
 
     public static void main(String[] args) {
