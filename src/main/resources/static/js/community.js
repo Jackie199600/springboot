@@ -33,7 +33,7 @@ function comment2target(targetId, type, content) {
                 if (response.code == 2003) {
                     var isAccepted = confirm(response.message);
                     if (isAccepted) {
-                        window.open("http://github.com/login/oauth/authorize?client_id=4f5f69dca2b36446d940&redirect_uri=http://106.75.47.44/callback&scope=user&state=1");
+                        window.open("https://github.com/login/oauth/authorize?client_id=4f5f69dca2b36446d940&redirect_uri=http://106.75.47.44/callback&scope=user&state=1");
                         // window.open("https://github.com/login/oauth/authorize?client_id=4f5f69dca2b36446d940&redirect_uri=http://localhost:8080/callback&scope=user&state=1");
                         window.localStorage.setItem("closable", true);
                     }
