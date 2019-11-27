@@ -3,7 +3,6 @@ package com.xcl.config;
 import org.apache.catalina.connector.Connector;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
  * Date: 2019/11/27
  * Time: 9:32
  */
-@Configuration
 public class TomcatConfig {
 
     @Bean
